@@ -58,7 +58,9 @@ export class MaterialCollection {
         }
     }
 
-    public removeMaterials()
+    public removeMaterials() {
+
+    }
 
 
     public getAmountsAsArray() {

@@ -1,0 +1,21 @@
+{
+    "name": "fraserbot-space",
+    "version": "1.0.0",
+    "description": "a support module to run the fraserbot spacegame",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "tsc"
+    },
+    "author": "fraser mccallum",
+    "license": "ISC",
+    "dependencies": {
+        "sequelize": "^5.21.5",
+        "sqlite3": "^4.1.1"
+    },
+    "devDependencies": {
+        "npm-dts": "^1.2.0",
+        "typescript": "^3.8.3",
+        "typings": "^2.1.1"
+    },
+    "types": "dist/index.d.ts"
+}
