@@ -3,6 +3,7 @@ import { TemplateMaterialCollection } from "./TemplateMaterialCollection";
 export class MaterialCollection {
 
     private materialMap: Map<string, number>
+    private templateMaterialCollection: TemplateMaterialCollection
 
     public constructor(templateCollection: TemplateMaterialCollection)
     public constructor(templateCollection: TemplateMaterialCollection, orderedQuantityArray: number[])
@@ -21,6 +22,13 @@ export class MaterialCollection {
                 });
                 break;
         }
+        this.templateMaterialCollection = args[0]
+    }
+
+    public setMaterial(orderedQuantityArray: number[]) {
+        this.templateMaterialCollection.exportMaterialNames().forEach((el: string, idx: number) => {
+            this.materialMap.set(el, orderedQuantityArray[idx])
+        });
     }
 
     public addMaterial(materialName: string, incrementAmount: number): boolean {
@@ -58,7 +66,19 @@ export class MaterialCollection {
         }
     }
 
-    public removeMaterials() {
+    public subtractMaterialCollection(comparedCollection: MaterialCollection): boolean {
+        let comparedArray: number[] = comparedCollection.getAmountsAsArray()
+        let materialArray: number[] = this.getAmountsAsArray()
+
+        return this.compareMaterialCollection(comparedCollection) ? (() => {
+            materialArray = materialArray.map(subtractElements)
+            this.setMaterial(materialArray)
+            return true
+        })() : false;
+
+        function subtractElements(el: number, idx: number): number {
+            return el - comparedArray[idx]
+        }
 
     }
 
