@@ -1,17 +1,14 @@
-import { BaseCollection } from "./BaseCollection"
+export class TemplateStringNumCollection {
+	protected materialNameList: Array<string>;
+	constructor(materials: string[]) {
+		this.materialNameList = materials;
+	}
 
-export class TemplateMaterialCollection extends BaseCollection {
-    protected materialNameList: Array<string>
-    constructor(materials: string[]) {
-        super();
-        this.materialNameList = materials;
-    }
+	public exportMaterialNames(): string[] {
+		return this.materialNameList;
+	}
 
-    public exportMaterialNames(): string[] {
-        return this.materialNameList;
-    }
-
-    /*constructor(BasicFood: number, CheapAlcohol: number, Water: number, Medicine: number, SpaceWaste: number, Drugs: number, Oil: number,
+	/*constructor(BasicFood: number, CheapAlcohol: number, Water: number, Medicine: number, SpaceWaste: number, Drugs: number, Oil: number,
         Electronics: number, MechanicalParts: number, Explosives: number, Plastics: number, Optics: number, NobleGas: number, EnergyCell: number,
         Processors: number, Nanotech: number, ArmouredPlating: number, Chemicals: number, IronOre: number, TitaniumOre: number, GoldOre: number,
         UraniumOre: number, AluminiumOre: number, CopperOre: number, TinOre: number, IridiumOre: number, Luxuries: number, Organs: number,
@@ -44,4 +41,3 @@ export class TemplateMaterialCollection extends BaseCollection {
             .set("")
     }*/
 }
-
