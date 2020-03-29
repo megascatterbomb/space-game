@@ -10,15 +10,15 @@ export class MaterialCollection extends BaseStringNumCollection {
 	}
 
 	public setMaterial(orderedQuantityArray: number[]) {
-		this.templateMaterialCollection.exportMaterialNames().forEach((el: string, idx: number) => {
-			this.materialMap.set(el, orderedQuantityArray[idx]);
+		this.templateCollection.exportMaterialNames().forEach((el: string, idx: number) => {
+			this.collectionMap.set(el, orderedQuantityArray[idx]);
 		});
 	}
 
 	public addMaterial(materialName: string, incrementAmount: number): boolean {
-		if (this.checkMaterialExists(materialName)) {
-			let newMaterialAmount = this.materialMap.get(materialName)! + incrementAmount;
-			this.materialMap.set(materialName, newMaterialAmount);
+		if (this.checkItemExists(materialName)) {
+			let newMaterialAmount = this.collectionMap.get(materialName)! + incrementAmount;
+			this.collectionMap.set(materialName, newMaterialAmount);
 			return true;
 		} else {
 			throw new Error("Error: Material does not exist");
@@ -26,10 +26,10 @@ export class MaterialCollection extends BaseStringNumCollection {
 	}
 
 	public removeMaterial(materialName: string, decrementAmount: number): boolean {
-		if (this.checkMaterialExists(materialName)) {
-			if (this.materialMap.get(materialName)! >= decrementAmount) {
-				let newMaterialAmount = this.materialMap.get(materialName)! - decrementAmount;
-				this.materialMap.set(materialName, newMaterialAmount);
+		if (this.checkItemExists(materialName)) {
+			if (this.collectionMap.get(materialName)! >= decrementAmount) {
+				let newMaterialAmount = this.collectionMap.get(materialName)! - decrementAmount;
+				this.collectionMap.set(materialName, newMaterialAmount);
 				return true;
 			} else {
 				return false;
@@ -64,14 +64,6 @@ export class MaterialCollection extends BaseStringNumCollection {
 
 		function subtractElements(el: number, idx: number): number {
 			return el - comparedArray[idx];
-		}
-	}
-
-	private checkMaterialExists(materialName: string): boolean {
-		if (this.materialMap.get(materialName) == undefined || this.materialMap.get(materialName) == null) {
-			return false;
-		} else {
-			return true;
 		}
 	}
 }

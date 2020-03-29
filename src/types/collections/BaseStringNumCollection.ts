@@ -1,31 +1,39 @@
 import { TemplateStringNumCollection } from "./TemplateNumStringCollection";
 
 export class BaseStringNumCollection {
-	protected materialMap: Map<string, number>;
-	protected templateMaterialCollection: TemplateStringNumCollection;
+	protected collectionMap: Map<string, number>;
+	protected templateCollection: TemplateStringNumCollection;
 
 	public constructor(args: any[]) {
-		this.materialMap = new Map();
+		this.collectionMap = new Map();
 		switch (args.length) {
 			case 1:
 				args[0].exportMaterialNames().forEach((el: string) => {
-					this.materialMap.set(el, 0);
+					this.collectionMap.set(el, 0);
 				});
 				break;
 			case 2:
 				args[0].exportMaterialNames().forEach((el: string, idx: number) => {
-					this.materialMap.set(el, args[1][idx]);
+					this.collectionMap.set(el, args[1][idx]);
 				});
 				break;
 		}
-		this.templateMaterialCollection = args[0];
+		this.templateCollection = args[0];
 	}
 
 	public getAmountsAsArray() {
 		let a: number[] = new Array();
-		this.materialMap.forEach(value => {
+		this.collectionMap.forEach(value => {
 			a.push(value);
 		});
 		return a;
+	}
+
+	protected checkItemExists(itemName: string): boolean {
+		if (this.collectionMap.get(itemName) == undefined || this.collectionMap.get(itemName) == null) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 }

@@ -1,8 +1,8 @@
-const { TemplateMaterialCollection } = require('../dist/types/collections/TemplateMaterialCollection');
+const { TemplateStringNumCollection } = require('../dist/types/collections/TemplateMaterialCollection');
 const { MaterialCollection } = require('../dist/types/collections/MaterialCollection');
 
 const MATERIAL_NAME_LIST = ["Rocks", "Metal", "Energy"];
-const TEMPLATE_MATERIALS = new TemplateMaterialCollection(MATERIAL_NAME_LIST);
+const TEMPLATE_MATERIALS = new TemplateStringNumCollection(MATERIAL_NAME_LIST);
 
 let myQuantity = [100, 50, 20];
 let requiredQuantity = [5, 5, 5];
@@ -12,6 +12,7 @@ let myCollection = new MaterialCollection(TEMPLATE_MATERIALS, myQuantity);
 
 let comparedCollection = new MaterialCollection(TEMPLATE_MATERIALS, requiredQuantity)
 let expensiveCollection = new MaterialCollection(TEMPLATE_MATERIALS, [1000, 1, 1])
+
 
 
 console.log('Blueprint Cost: ' + requiredQuantity)
