@@ -1,4 +1,4 @@
-import { MaterialCollection } from "fraserbot-space";
+import { MaterialCollection } from "./collections/MaterialCollection";
 
 export class Blueprint {
     constructor(materialCollection: MaterialCollection) {
