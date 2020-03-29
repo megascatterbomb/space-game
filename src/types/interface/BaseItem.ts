@@ -1,0 +1,3 @@
+interface BaseItem {
+	getName(): string;
+}

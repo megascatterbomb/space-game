@@ -1,35 +1,39 @@
-import { BaseStringNumCollection } from "./BaseStringNumCollection";
-import { TemplateStringNumCollection } from "./TemplateNumStringCollection";
+import { BaseItem_NumCollection } from "./BaseItem_NumCollection";
+import { BaseItem_Template } from "./BaseItem_Template";
+import { Material } from "../Material";
 
-export class MaterialCollection extends BaseStringNumCollection {
-	public constructor(templateCollection: TemplateStringNumCollection);
-	public constructor(templateCollection: TemplateStringNumCollection, orderedQuantityArray: number[]);
-
-	constructor(...args: any[]) {
-		super(args);
+export class MaterialCollection extends BaseItem_NumCollection {
+	constructor(template: BaseItem_Template, quantity?: number[]) {
+		if (quantity == undefined) {
+			let len: number = template.exportItemList().length;
+			quantity = new Array<number>(len).fill(0, 0, len);
+		}
+		super(template, quantity);
 	}
 
 	public setMaterial(orderedQuantityArray: number[]) {
-		this.templateCollection.exportMaterialNames().forEach((el: string, idx: number) => {
-			this.collectionMap.set(el, orderedQuantityArray[idx]);
+		let idx = 0;
+		this.collectionMap.forEach((_val, key) => {
+			this.collectionMap.set(key, orderedQuantityArray[idx]);
+			idx++;
 		});
 	}
 
-	public addMaterial(materialName: string, incrementAmount: number): boolean {
-		if (this.checkItemExists(materialName)) {
-			let newMaterialAmount = this.collectionMap.get(materialName)! + incrementAmount;
-			this.collectionMap.set(materialName, newMaterialAmount);
+	public addMaterial(material: Material, incrementAmount: number): boolean {
+		if (this.checkItemExists(material)) {
+			let newMaterialAmount = this.collectionMap.get(material)! + incrementAmount;
+			this.collectionMap.set(material, newMaterialAmount);
 			return true;
 		} else {
 			throw new Error("Error: Material does not exist");
 		}
 	}
 
-	public removeMaterial(materialName: string, decrementAmount: number): boolean {
-		if (this.checkItemExists(materialName)) {
-			if (this.collectionMap.get(materialName)! >= decrementAmount) {
-				let newMaterialAmount = this.collectionMap.get(materialName)! - decrementAmount;
-				this.collectionMap.set(materialName, newMaterialAmount);
+	public removeMaterial(material: Material, decrementAmount: number): boolean {
+		if (this.checkItemExists(material)) {
+			if (this.collectionMap.get(material)! >= decrementAmount) {
+				let newMaterialAmount = this.collectionMap.get(material)! - decrementAmount;
+				this.collectionMap.set(material, newMaterialAmount);
 				return true;
 			} else {
 				return false;
@@ -43,27 +47,23 @@ export class MaterialCollection extends BaseStringNumCollection {
 		let comparedArray: number[] = comparedCollection.getAmountsAsArray();
 		let materialArray: number[] = this.getAmountsAsArray();
 
-		return materialArray.every(indexAtleast);
-
-		function indexAtleast(el: number, idx: number): boolean {
+		return materialArray.every((el, idx) => {
 			return el >= comparedArray[idx];
-		}
+		});
 	}
 
 	public subtractMaterialCollection(comparedCollection: MaterialCollection): boolean {
 		let comparedArray: number[] = comparedCollection.getAmountsAsArray();
 		let materialArray: number[] = this.getAmountsAsArray();
-
 		return this.compareMaterialCollection(comparedCollection)
 			? (() => {
-					materialArray = materialArray.map(subtractElements);
-					this.setMaterial(materialArray);
+					this.setMaterial(
+						materialArray.map((el: number, idx: number) => {
+							return el - comparedArray[idx];
+						})
+					);
 					return true;
 			  })()
 			: false;
-
-		function subtractElements(el: number, idx: number): number {
-			return el - comparedArray[idx];
-		}
 	}
 }
