@@ -1,10 +1,10 @@
-import { TemplateStringNumCollection } from "./TemplateMaterialCollection";
+import { TemplateStringNumCollection } from "./TemplateNumStringCollection";
 
 export class BaseStringNumCollection {
 	protected materialMap: Map<string, number>;
 	protected templateMaterialCollection: TemplateStringNumCollection;
 
-	public constructor(...args: any[]) {
+	public constructor(args: any[]) {
 		this.materialMap = new Map();
 		switch (args.length) {
 			case 1:

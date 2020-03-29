@@ -1,5 +1,5 @@
 import { BaseStringNumCollection } from "./BaseStringNumCollection";
-import { TemplateStringNumCollection } from "./TemplateMaterialCollection";
+import { TemplateStringNumCollection } from "./TemplateNumStringCollection";
 
 export class MaterialCollection extends BaseStringNumCollection {
 	public constructor(templateCollection: TemplateStringNumCollection);

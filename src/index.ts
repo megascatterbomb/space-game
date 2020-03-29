@@ -1,7 +1,7 @@
 export { BaseStringNumCollection } from "./types/collections/BaseStringNumCollection";
 export { MaterialCollection } from "./types/collections/MaterialCollection"
 export { ReputationCollection } from "./types/collections/ReputationCollection"
-export { TemplateStringNumCollection as TemplateMaterialCollection } from "./types/collections/TemplateMaterialCollection"
+export { TemplateStringNumCollection as TemplateMaterialCollection } from "./types/collections/TemplateNumStringCollection"
 
 export { Blueprint } from "./types/Blueprint"
 export { ItemTier } from "./types/ItemTier"

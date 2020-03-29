@@ -1,7 +1,7 @@
 import { BaseStringNumCollection } from "../..";
 
 export class ReputationCollection extends BaseStringNumCollection {
-	constructor() {
-		super();
+	constructor(...args: any[]) {
+		super(args);
 	}
 }
