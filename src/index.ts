@@ -7,7 +7,7 @@ export { Blueprint } from "./types/Blueprint"
 export { ItemTier } from "./types/ItemTier"
 export { ItemType } from "./types/ItemType"
 export { Material } from "./types/Material"
-export { SpaceAlliance } from "./types/SpaceAlliance"
+export { Faction as SpaceAlliance } from "./types/Faction"
 export { User } from "./types/User"
 export { WarpStrength } from "./types/WarpStrength"
 
