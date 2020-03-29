@@ -1,14 +1,14 @@
 import { NodeLink } from "./NodeLink";
-import { SpaceAlliance } from "../types/SpaceAlliance";
+import { Faction } from "../types/Faction";
 import { WarpStrength } from "../types/WarpStrength";
 
 export class MapNode {
     private id: number;
     private name: string;
-    private alliance: SpaceAlliance;
+    private alliance: Faction;
     private linkedNodes: NodeLink[];
 
-    constructor(id: number, name: string, alliance: SpaceAlliance, connections: NodeLink[]) {
+    constructor(id: number, name: string, alliance: Faction, connections: NodeLink[]) {
         this.id = id;
         this.name = name;
         this.alliance = alliance;
