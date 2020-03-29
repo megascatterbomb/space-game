@@ -1,6 +1,6 @@
 import { NodeLink } from "./NodeLink";
-import { Faction } from "../types/Faction";
-import { WarpStrength } from "../types/WarpStrength";
+import { Faction } from "../types/interface/Faction";
+import { WarpStrength } from "../types/enums/WarpStrength";
 
 export class MapNode {
     private id: number;
