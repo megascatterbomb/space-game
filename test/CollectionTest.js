@@ -1,4 +1,4 @@
-factionCollection()
+materialCollectionSize()
 
 function factionCollection() {
     const { Faction } = require('../dist/types/Faction')
@@ -31,7 +31,7 @@ function factionCollection() {
 function materialCollection() {
     const { BaseItem_Template } = require('../dist/types/collections/BaseItem_Template');
     const { MaterialCollection } = require('../dist/types/collections/MaterialCollection');
-    const { Material } = require('../dist/types/Material')
+    const { Material } = require('../dist/types/interface/baseitem/Material')
 
     let Rocks = new Material(0, "Rocks", 5, 50, 5)
     let Metal = new Material(1, "Metal", 50, 150, 8)
@@ -70,4 +70,26 @@ function materialCollection() {
 
     console.log('Testing subtracting full blueprint (can afford): ' + (myCollection.subtractMaterialCollection(comparedCollection) ? myCollection.getAmountsAsArray() : "Not enough resources!"))
     console.log('Testing subtracting full blueprint (cant afford): ' + (myCollection.subtractMaterialCollection(expensiveCollection) ? myCollection.getAmountsAsArray() : "Not enough resources!"))
+}
+
+function materialCollectionSize() {
+    const { BaseItem_Template } = require('../dist/types/collections/BaseItem_Template');
+    const { MaterialCollection } = require('../dist/types/collections/MaterialCollection');
+    const { Material } = require('../dist/types/interface/baseitem/Material')
+
+    let Rocks = new Material(0, "Rocks", 5, 50, 5)
+    let Metal = new Material(1, "Metal", 50, 150, 10)
+    let Energy = new Material(2, "Energy", 15, 30, 2)
+
+    const MATERIAL_NAME_LIST = [Rocks, Metal, Energy];
+    const TEMPLATE_MATERIALS = new BaseItem_Template(MATERIAL_NAME_LIST);
+
+    let myQuantity = [10, 5, 20];
+
+    let myCollection = new MaterialCollection(TEMPLATE_MATERIALS, myQuantity);
+
+    console.log(myCollection.getCollectionSize());
+
+
+
 }
