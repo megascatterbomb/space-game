@@ -1,6 +1,6 @@
 import { BaseItem_NumCollection } from "./BaseItem_NumCollection";
 import { BaseItem_Template } from "./BaseItem_Template";
-import { Material } from "../Material";
+import { Material } from "../interface/baseitem/Material";
 
 export class MaterialCollection extends BaseItem_NumCollection {
 	constructor(template: BaseItem_Template, quantity?: number[]) {
@@ -65,5 +65,15 @@ export class MaterialCollection extends BaseItem_NumCollection {
 					return true;
 			  })()
 			: false;
+	}
+
+	public addMaterialCollection(comparedCollection: MaterialCollection): void {}
+
+	public getCollectionSize(): number {
+		let count: number = 0;
+		this.collectionMap.forEach((val: number, key: BaseItem) => {
+			count += key.getSize() * val;
+		});
+		return count;
 	}
 }

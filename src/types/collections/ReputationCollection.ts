@@ -1,4 +1,4 @@
-import { Faction } from "../interface/Faction";
+import { Faction } from "../interface/baseitem/Faction";
 import { BaseItem_Template } from "./BaseItem_Template";
 import { BaseItem_NumCollection } from "./BaseItem_NumCollection";
 
