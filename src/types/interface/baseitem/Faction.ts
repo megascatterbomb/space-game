@@ -14,7 +14,5 @@ export class Faction implements BaseItem {
 	public getTech(): number {
 		return this.techLevel;
 	}
-	public getSize(): number {
-		return 0;
-	}
+
 }

@@ -10,7 +10,7 @@ export class Blueprint {
 	}
 
 	public blueprintCheck(usersMats: MaterialCollection): boolean {
-		return usersMats.compareMaterialCollection(this.requiredMaterials);
+		return usersMats.compareCollection(this.requiredMaterials);
 	}
 
 	public getAttachment(): Attachment {

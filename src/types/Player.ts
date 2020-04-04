@@ -37,10 +37,10 @@ export class Player {
 	 * @param quantity the amount to change the repuation by
 	 */
 	public addReputation(faction: Faction, quantity: number): void {
-		this.reputation.addReputation(faction, quantity);
+		this.reputation.addToItem(faction, quantity);
 	}
 	public removeReputation(faction: Faction, quantity: number): void {
-		this.reputation.removeReputation(faction, quantity);
+		this.reputation.removeFromItem(faction, quantity);
 	}
 
 	public addCredits(quantity: number): void {
@@ -59,7 +59,7 @@ export class Player {
 	}
 
 	public subtractMaterialCollection(comparedCollection: MaterialCollection): boolean {
-		return this.materials.subtractMaterialCollection(comparedCollection);
+		return this.materials.subtractCollection(comparedCollection);
 	}
 
 	//section Τokens

@@ -1,7 +1,7 @@
-export { BaseItem_NumCollection as BaseStringNumCollection } from "./types/collections/BaseItem_NumCollection";
+export { BaseItemCollection } from "./types/collections/BaseItemCollection";
 export { MaterialCollection } from "./types/collections/MaterialCollection";
 export { ReputationCollection } from "./types/collections/ReputationCollection";
-export { BaseItem_Template as TemplateMaterialCollection } from "./types/collections/BaseItem_Template";
+export { TemplateItemCollection } from "./types/collections/TemplateItemCollection";
 
 export { Blueprint } from "./types/Blueprint";
 export { ItemTier } from "./types/enums/ItemTier";
