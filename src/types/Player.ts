@@ -14,7 +14,8 @@ export class Player {
 	private reputation: ReputationCollection;
 	private materials: MaterialCollection;
 
-	private blueprintCollection: Map<Blueprint, Blueprint>;
+	//todo change this to a set
+	private blueprints: Set<Blueprint>;
 
 	constructor(discordId: string, ship: Ship, skin: Skin, tokens: number, credits: number, reputation: ReputationCollection, materials: MaterialCollection) {
 		this.discordId = discordId;
@@ -27,7 +28,7 @@ export class Player {
 		this.reputation = reputation;
 		this.materials = materials;
 
-		this.blueprintCollection = new Map<Blueprint, Blueprint>();
+		this.blueprints = new Set<Blueprint>();
 	}
 
 	/**
@@ -90,14 +91,14 @@ export class Player {
 	 * @param blueprint the blueprint to add to the users collection
 	 */
 	public addBlueprint(blueprint: Blueprint): void {
-		this.blueprintCollection.set(blueprint, blueprint);
+		this.blueprints.add(blueprint);
 	}
 	/**
 	 * returns if the blueprint exists in the players collection
 	 * @param blueprint the blueprint to see if the player owns
 	 */
 	public checkPlayerOwnsBlueprint(blueprint: Blueprint): boolean {
-		return this.blueprintCollection.get(blueprint) != undefined;
+		return this.blueprints.has(blueprint);
 	}
 	/**
 	 *  returns if the player can build a blueprint (has the materials and owns it)
