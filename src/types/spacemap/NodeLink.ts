@@ -12,7 +12,7 @@ export class NodeLink {
 		this.strength = strength;
 	}
 
-	public checkStrength(userStrength: number) {
+	public checkStrength(userStrength: number): boolean | TypeError {
 		if (typeof userStrength == "number") {
 			return userStrength > this.strength;
 		} else {
