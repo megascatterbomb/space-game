@@ -1,0 +1,379 @@
+declare module "index" { }
+declare module "battle/BaseShip" {
+    class ShipIdentifier {
+        protected name: string;
+        protected subclass: string;
+        protected description: string;
+        protected id: number;
+        constructor(id: number, name: string, subclass: string, description: string);
+        /**
+         * @returns {number} the ship id
+         */
+        getShipId(): number;
+    }
+    export class BaseShip extends ShipIdentifier {
+        protected techLevel: number;
+        protected baseHp: number;
+        protected baseShield: number;
+        protected baseWeapon: number;
+        protected baseCpu: number;
+        protected baseEngine: number;
+        protected baseCargo: number;
+        protected baseHandling: number;
+        protected primarySlots: number;
+        protected shieldSlots: number;
+        protected heavySlots: number;
+        protected minerSlots: number;
+        protected generalSlots: number;
+        protected cost: number;
+        constructor(id: number, name: string, subclass: string, description: string, techLevel: number, baseHp: number, baseShield: number, baseWeapon: number, baseCpu: number, baseEngine: number, baseCargo: number, baseHandling: number, primarySlots: number, shieldSlots: number, heavySlots: number, minerSlots: number, generalSlots: number, cost: number);
+    }
+}
+declare module "battle/BattleShip" {
+    import { BaseShip } from "battle/BaseShip";
+    export class BattleShip {
+        constructor(BaseShip: BaseShip);
+    }
+}
+declare module "types/Blueprint" {
+    import { MaterialCollection } from "fraserbot-space";
+    export class Blueprint {
+        constructor(materialCollection: MaterialCollection);
+    }
+}
+declare module "types/ItemTier" {
+    export enum ItemTier {
+        Standard = 0,
+        Improved = 1,
+        Advanced = 2,
+        Elite = 3,
+        Capital = 4,
+        Relic = 5
+    }
+}
+declare module "types/ItemType" {
+    export enum ItemType {
+        Primary = 0,
+        Heavy = 1,
+        Shield = 2,
+        Miner = 3,
+        Cargohold = 4,
+        Armour = 5,
+        Reserves = 6,
+        Warpdrive = 7,
+        Tractor = 8,
+        Thruster = 9
+    }
+}
+declare module "battle/attachment-types/ActiveCore" {
+    import { Blueprint } from "types/Blueprint";
+    import { ItemTier } from "types/ItemTier";
+    import { ItemType } from "types/ItemType";
+    import { Attachment } from "fraserbot-space";
+    export class ActiveCore extends Attachment {
+        protected costWeapon: number;
+        protected costCpu: number;
+        protected costEngine: number;
+        protected keepTurn: boolean;
+        protected cooldown: number;
+        protected cooldownRemaining: number;
+        constructor(id: number, name: string, cost: number, description: string, itemType: ItemType, tier: ItemTier, blueprint: Blueprint, itemTech: number, costWeapon: number, costCpu: number, costEngine: number, keepTurn: boolean, cooldown: number);
+        setCooldown(): void;
+        reduceCooldown(): void;
+        checkReady(): boolean;
+        checkEnergy(userWeapon: number, userCpu: number, userEngine: number): boolean;
+        checkUsable(): () => boolean;
+    }
+}
+declare module "types/collections/BaseCollection" {
+    export class BaseCollection {
+        constructor();
+    }
+}
+declare module "types/collections/TemplateMaterialCollection" {
+    import { BaseCollection } from "types/collections/BaseCollection";
+    export class TemplateMaterialCollection extends BaseCollection {
+        protected materialNameList: Array<string>;
+        constructor(materials: string[]);
+        exportMaterialNames(): string[];
+    }
+}
+declare module "types/collections/MaterialCollection" {
+    import { TemplateMaterialCollection } from "types/collections/TemplateMaterialCollection";
+    export class MaterialCollection {
+        private materialMap;
+        private templateMaterialCollection;
+        constructor(templateCollection: TemplateMaterialCollection);
+        constructor(templateCollection: TemplateMaterialCollection, orderedQuantityArray: number[]);
+        setMaterial(orderedQuantityArray: number[]): void;
+        addMaterial(materialName: string, incrementAmount: number): boolean;
+        removeMaterial(materialName: string, decrementAmount: number): boolean;
+        compareMaterialCollection(comparedCollection: MaterialCollection): boolean;
+        subtractMaterialCollection(comparedCollection: MaterialCollection): boolean;
+        getAmountsAsArray(): number[];
+        private checkMaterialExists;
+    }
+}
+declare module "battle/attachment-types/Attachment" {
+    import { Blueprint } from "types/Blueprint";
+    import { ItemTier } from "types/ItemTier";
+    import { ItemType } from "types/ItemType";
+    import { MaterialCollection } from "types/collections/MaterialCollection";
+    export class Attachment {
+        protected id: number;
+        protected name: string;
+        protected cost: number;
+        protected description: string;
+        protected itemType: ItemType;
+        protected tier: ItemTier;
+        protected blueprint: Blueprint;
+        protected itemTech: number;
+        constructor(id: number, name: string, cost: number, description: string, itemType: ItemType, tier: ItemTier, blueprint: Blueprint, itemTech: number);
+        /**
+         * canPurchase
+         * @param cr users available credits
+         * @returns {boolean} if the purchase is possible
+         */
+        canPurchase(cr: number): boolean;
+        /**
+         * canEquip
+         * @param tl users current tech level
+         * @returns {boolean} if the equip is possible
+         */
+        canEquip(tl: number): boolean;
+        /**
+         * getItemInfo returns the core data of the attachment
+         * @returns {Map} key value pairs of the data
+         */
+        getItemInfo(): Map<string, any>;
+        /**
+         * blueprintCheck compares a users @external MaterialCollection to the
+         * amount required to build this item
+         * @returns {boolean}
+         */
+        blueprintCheck(matCollection: MaterialCollection): boolean;
+        getDamageNumber(a: any): number;
+    }
+}
+declare module "battle/attachment-types/DamageListenerCore" {
+    import { Attachment, Blueprint, ItemTier, ItemType } from "fraserbot-space";
+    export class DamageListenerCore extends Attachment {
+        constructor(id: number, name: string, cost: number, description: string, itemType: ItemType, tier: ItemTier, blueprint: Blueprint, itemTech: number);
+        protected rb(min: number, max: number): number;
+    }
+}
+declare module "battle/attachment-types/PassiveCore" {
+    import { Attachment, ItemType, ItemTier, Blueprint } from "fraserbot-space";
+    export class PassiveCore extends Attachment {
+        constructor(id: number, name: string, cost: number, description: string, itemType: ItemType, tier: ItemTier, blueprint: Blueprint, itemTech: number);
+        protected rb(min: number, max: number): number;
+    }
+}
+declare module "battle/attachment-types/active/EmpHeavy" {
+    import { ItemType, ItemTier, Blueprint } from "fraserbot-space";
+    import { ActiveCore } from "battle/attachment-types/ActiveCore";
+    export class EmpHeavy extends ActiveCore {
+        private baseDamage;
+        private energyDamage;
+        constructor(id: number, name: string, cost: number, description: string, itemType: ItemType, tier: ItemTier, blueprint: Blueprint, itemTech: number, costWeapon: number, costCpu: number, costEngine: number, keepTurn: boolean, cooldown: number, baseDamage: number, energyDamage: number);
+        getDamageNumber(): number;
+        getEnergyDamageNumber(): number[];
+    }
+}
+declare module "battle/attachment-types/active/StandardHeavy" {
+    import { ItemType, ItemTier, Blueprint } from "fraserbot-space";
+    import { ActiveCore } from "battle/attachment-types/ActiveCore";
+    export class StandardHeavy extends ActiveCore {
+        private baseDamage;
+        private scalingDamage;
+        private energyPerScale;
+        constructor(id: number, name: string, cost: number, description: string, itemType: ItemType, tier: ItemTier, blueprint: Blueprint, itemTech: number, costWeapon: number, costCpu: number, costEngine: number, keepTurn: boolean, cooldown: number, baseDamage: number, scalingDamage: number, energyPerScale: number);
+        getDamageNumber(userEnergy: number): number;
+    }
+}
+declare module "battle/attachment-types/damagelistener/EmergencyShield" {
+    import { ItemType, ItemTier, Blueprint } from "fraserbot-space";
+    import { DamageListenerCore } from "battle/attachment-types/DamageListenerCore";
+    export class SaveShield extends DamageListenerCore {
+        private shieldGained;
+        private hullGained;
+        private available;
+        constructor(id: number, name: string, cost: number, description: string, itemType: ItemType, tier: ItemTier, blueprint: Blueprint, itemTech: number, shieldGained: number, hullGained: number);
+        getShieldHealNumber(): number;
+        getHealNumber(): number;
+        useSaveShield(): void;
+        checkUsable(): boolean;
+    }
+}
+declare module "battle/attachment-types/damagelistener/NullShield" {
+    import { ItemType, ItemTier, Blueprint } from "fraserbot-space";
+    import { DamageListenerCore } from "battle/attachment-types/DamageListenerCore";
+    export class NullShield extends DamageListenerCore {
+        private reductionChance;
+        constructor(id: number, name: string, cost: number, description: string, itemType: ItemType, tier: ItemTier, blueprint: Blueprint, itemTech: number, reductionChance: number);
+        protected checkTick(): boolean;
+    }
+}
+declare module "battle/attachment-types/passive/EnergyShield" {
+    import { ItemType, ItemTier, Blueprint } from "fraserbot-space";
+    import { PassiveCore } from "battle/attachment-types/PassiveCore";
+    export class EnergyShield extends PassiveCore {
+        private energyGained;
+        constructor(id: number, name: string, cost: number, description: string, itemType: ItemType, tier: ItemTier, blueprint: Blueprint, itemTech: number, energyGained: number);
+        getEnergyHealNumber(): number;
+    }
+}
+declare module "battle/attachment-types/passive/InfernalPrimary" {
+    import { ItemType, ItemTier, Blueprint } from "fraserbot-space";
+    import { PassiveCore } from "battle/attachment-types/PassiveCore";
+    export class InfernalPrimary extends PassiveCore {
+        private baseDamage;
+        private damagePerTurn;
+        constructor(id: number, name: string, cost: number, description: string, itemType: ItemType, tier: ItemTier, blueprint: Blueprint, itemTech: number, baseDamage: number, damagePerTurn: number);
+        getDamageNumber(turns: number): number;
+    }
+}
+declare module "battle/attachment-types/passive/ScatterPrimary" {
+    import { ItemType, ItemTier, Blueprint } from "fraserbot-space";
+    import { PassiveCore } from "battle/attachment-types/PassiveCore";
+    export class ScatterPrimary extends PassiveCore {
+        private baseDamage;
+        private damagePerHundred;
+        constructor(id: number, name: string, cost: number, description: string, itemType: ItemType, tier: ItemTier, blueprint: Blueprint, itemTech: number, baseDamage: number, damagePerHundred: number);
+        getDamageNumber(opponentHp: number): number;
+    }
+}
+declare module "battle/attachment-types/passive/StandardPrimary" {
+    import { ItemType, ItemTier, Blueprint } from "fraserbot-space";
+    import { PassiveCore } from "battle/attachment-types/PassiveCore";
+    export class StandardPrimary extends PassiveCore {
+        private minDamage;
+        private maxDamage;
+        constructor(id: number, name: string, cost: number, description: string, itemType: ItemType, tier: ItemTier, blueprint: Blueprint, itemTech: number, minDamage: number, maxDamage: number);
+        getDamageNumber(): number;
+    }
+}
+declare module "battle/attachment-types/passive/StandardShield" {
+    import { ItemType, ItemTier, Blueprint } from "fraserbot-space";
+    import { PassiveCore } from "battle/attachment-types/PassiveCore";
+    export class StandardShield extends PassiveCore {
+        private minShield;
+        private maxShield;
+        constructor(id: number, name: string, cost: number, description: string, itemType: ItemType, tier: ItemTier, blueprint: Blueprint, itemTech: number, minShield: number, maxShield: number);
+        getShieldHealNumber(): number;
+    }
+}
+declare module "battle/attachments/heavy/ConvergingBeam" {
+    import { ItemType, ItemTier, Blueprint } from "fraserbot-space";
+    import { ActiveCore } from "battle/attachment-types/ActiveCore";
+    export class ConvergingBeam extends ActiveCore {
+        private baseDamage;
+        private scalingPerUse;
+        private maxScale;
+        private usages;
+        constructor(id: number, name: string, cost: number, description: string, itemType: ItemType, tier: ItemTier, blueprint: Blueprint, itemTech: number, costWeapon: number, costCpu: number, costEngine: number, keepTurn: boolean, cooldown: number, baseDamage: number, scalingPerUse: number, maxScale: number);
+        getDamageNumber(): number;
+        incrementDamage(): void;
+    }
+}
+declare module "battle/attachments/primary/AsarinExterminator" {
+    import { ItemType, ItemTier, Blueprint } from "fraserbot-space";
+    import { PassiveCore } from "battle/attachment-types/PassiveCore";
+    export class AsarinExterminator extends PassiveCore {
+        constructor(id: number, name: string, cost: number, description: string, itemType: ItemType, tier: ItemTier, blueprint: Blueprint, itemTech: number);
+        getDamageNumber(opponentHp: number): number;
+    }
+}
+declare module "battle/attachments/primary/AsarinFusionBeam" {
+    import { ItemType, ItemTier, Blueprint } from "fraserbot-space";
+    import { PassiveCore } from "battle/attachment-types/PassiveCore";
+    export class AsarinFusionBeam extends PassiveCore {
+        constructor(id: number, name: string, cost: number, description: string, itemType: ItemType, tier: ItemTier, blueprint: Blueprint, itemTech: number);
+        getShieldHealNumber(opponentShield: number): number;
+        getDamageNumber(opponentShield: number): number;
+    }
+}
+declare module "battle/attachments/primary/PerfectedPlasmaRay" {
+    import { ItemType, ItemTier, Blueprint } from "fraserbot-space";
+    import { PassiveCore } from "battle/attachment-types/PassiveCore";
+    export class PerfectedPlasmaRay extends PassiveCore {
+        constructor(id: number, name: string, cost: number, description: string, itemType: ItemType, tier: ItemTier, blueprint: Blueprint, itemTech: number);
+        getHealNumber(opponentMaxHp: number): number;
+        getDamageNumber(opponentMaxHp: number): number;
+    }
+}
+declare module "battle/attachments/primary/StandardBlaster" {
+    import { ItemType, ItemTier, Blueprint } from "fraserbot-space";
+    import { PassiveCore } from "battle/attachment-types/PassiveCore";
+    export class StandardBlaster extends PassiveCore {
+        private minDamage;
+        private maxDamage;
+        constructor(id: number, name: string, cost: number, description: string, itemType: ItemType, tier: ItemTier, blueprint: Blueprint, itemTech: number);
+        getDamageNumber(opponentHp: number): number;
+    }
+}
+declare module "types/WarpStrength" {
+    export enum WarpStrength {
+        NONE = 0,
+        SHORT = 1,
+        MEDIUM = 2,
+        LONG = 3
+    }
+}
+declare module "spacemap/NodeLink" {
+    import { MapNode } from "spacemap/MapNode";
+    import { WarpStrength } from "types/WarpStrength";
+    export class NodeLink {
+        private node;
+        private strength;
+        constructor(node: MapNode, strength: WarpStrength);
+        equalNodes(node: MapNode): boolean;
+        checkStrength(userStrength: WarpStrength): boolean;
+    }
+}
+declare module "types/SpaceAlliance" {
+    export class SpaceAlliance {
+        name: string;
+        techLevel: number;
+        constructor(name: string, techLevel: number);
+    }
+}
+declare module "spacemap/MapNode" {
+    import { NodeLink } from "spacemap/NodeLink";
+    import { SpaceAlliance } from "types/SpaceAlliance";
+    import { WarpStrength } from "types/WarpStrength";
+    export class MapNode {
+        private id;
+        private name;
+        private alliance;
+        private linkedNodes;
+        constructor(id: number, name: string, alliance: SpaceAlliance, connections: NodeLink[]);
+        checkLocationAvailability(destination: MapNode, userStrength: WarpStrength): boolean;
+        compareId(id: number): boolean;
+        getId(): number;
+    }
+}
+declare module "spacemap/NodeCollection" {
+    import { MapNode } from "spacemap/MapNode";
+    export class NodeCollection {
+        private nodeMap;
+        constructor(mapNodeArray: MapNode[]);
+        fillMap(mapNodeArray: MapNode[]): void;
+    }
+}
+declare module "types/Material" {
+    export class Material {
+        private id;
+        private name;
+        private minCost;
+        private maxCost;
+        private size;
+        constructor(id: number, name: string, minCost: number, maxCost: number, size: number);
+    }
+}
+declare class User {
+    constructor(discordId: string, shipId: number, skinId: number, tokens: number, credits: number, reputation: ReputationCollection);
+}
+declare class ReputationCollection {
+    constructor();
+}

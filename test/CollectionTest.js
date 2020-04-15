@@ -1,5 +1,6 @@
-materialCollection()
-materialCollectionSize()
+//materialCollection()
+//materialCollectionSize()
+nodeTest()
 
 function factionCollection() {
     const { Faction } = require('../dist/types/Faction')
@@ -94,4 +95,14 @@ function materialCollectionSize() {
 
 
 
+}
+
+function nodeTest() {
+    const { NodeLink } = require('../dist/types/spacemap/NodeLink');
+    const { SpaceMap } = require('../dist/types/spacemap/SpaceMap');
+
+    let f = new SpaceMap()
+
+    let a = new NodeLink("a", "b", 2)
+    a.checkStrength(f)
 }

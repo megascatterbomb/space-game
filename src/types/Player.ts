@@ -4,6 +4,7 @@ import { Blueprint } from "./Blueprint";
 import { Faction } from "./interface/baseitem/Faction";
 import { Ship } from "./Ship";
 import { Skin } from "./Skin";
+import { Inventory } from "./Inventory";
 
 export class Player {
 	private discordId: string;
@@ -14,10 +15,10 @@ export class Player {
 	private reputation: ReputationCollection;
 	private materials: MaterialCollection;
 
-	//todo change this to a set
 	private blueprints: Set<Blueprint>;
+	private inventory: Inventory;
 
-	constructor(discordId: string, ship: Ship, skin: Skin, tokens: number, credits: number, reputation: ReputationCollection, materials: MaterialCollection) {
+	constructor(discordId: string, ship: Ship, skin: Skin, tokens: number, credits: number, reputation: ReputationCollection, materials: MaterialCollection, inventory: Inventory) {
 		this.discordId = discordId;
 		this.ship = ship;
 		this.skin = skin;
@@ -29,6 +30,7 @@ export class Player {
 		this.materials = materials;
 
 		this.blueprints = new Set<Blueprint>();
+		this.inventory = inventory;
 	}
 
 	/**
