@@ -25,11 +25,7 @@ export class BaseItemCollection<T extends BaseItem> {
 	}
 
 	public checkItemExists(itemName: T): boolean {
-		if (this.collectionMap.get(itemName) == undefined || this.collectionMap.get(itemName) == null) {
-			return false;
-		} else {
-			return true;
-		}
+		return !(this.collectionMap.get(itemName) == undefined || this.collectionMap.get(itemName) == null);
 	}
 
 	public setItem(orderedQuantityArray: number[]) {
@@ -76,6 +72,7 @@ export class BaseItemCollection<T extends BaseItem> {
 	public subtractCollection(comparedCollection: BaseItemCollection<T>): boolean {
 		let comparedArray: number[] = comparedCollection.getAmountsAsArray();
 		let materialArray: number[] = this.getAmountsAsArray();
+
 		return this.compareCollection(comparedCollection)
 			? (() => {
 					this.setItem(
