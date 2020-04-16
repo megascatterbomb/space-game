@@ -13,5 +13,5 @@ export { Ship } from "./types/Ship";
 export { Attachment } from "./types/Attachment";
 
 export { MapNode } from "./types/spacemap/MapNode";
-export { SpaceMap as NodeCollection } from "./types/spacemap/SpaceMap";
+export { SpaceMap } from "./types/spacemap/SpaceMap";
 export { NodeLink } from "./types/spacemap/NodeLink";
