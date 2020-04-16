@@ -98,11 +98,29 @@ function materialCollectionSize() {
 }
 
 function nodeTest() {
-    const { NodeLink } = require('../dist/types/spacemap/NodeLink');
-    const { SpaceMap } = require('../dist/types/spacemap/SpaceMap');
 
-    let f = new SpaceMap()
+    const { MapNode, SpaceMap, NodeLink } = require('../dist');
 
-    let a = new NodeLink("a", "b", 2)
-    a.checkStrength(f)
+    const names = ["Gemini", "Kalen", "Orion", "Lyra", "Aries", "Auriga", "Erisna", "Aquarius",];
+    const factions = ["Kalen", "Kalen", "Kalen", "Kalen", "Kalen", "Kalen", "Erisna", "Erisna",];
+
+    const spaceSystems = SpaceMap.GenerateMapNodes(names, factions);
+    let galMap = new SpaceMap(spaceSystems);
+
+    galMap.addLink("Gemini", "Kalen", 0)
+    galMap.addLink("Kalen", "Orion", 0)
+    galMap.addLink("Orion", "Auriga", 0)
+
+    galMap.addLink("Auriga", "Erisna", 0)
+
+    galMap.addLink("Erisna", "Aquarius", 1)
+    galMap.addLink("Auriga", "Aries", 0)
+    galMap.addLink("Aries", "Lyra", 0)
+    galMap.addLink("Lyra", "Kalen", 0)
+
+    let myWarpPower = 0;
+
+    console.log(`User needs ${galMap.checkRequiredWarpStrength("Erisna", "Auriga", myWarpPower)} more levels in their warp drive.`);
+
+
 }
