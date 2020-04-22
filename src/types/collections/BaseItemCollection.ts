@@ -17,11 +17,11 @@ export class BaseItemCollection<T extends BaseItem> {
 	}
 
 	public getAmountsAsArray(): number[] {
-		let a: number[] = new Array();
+		let arr: number[] = new Array();
 		this.collectionMap.forEach((value) => {
-			a.push(value);
+			arr.push(value);
 		});
-		return a;
+		return arr;
 	}
 
 	public checkItemExists(itemName: T): boolean {
